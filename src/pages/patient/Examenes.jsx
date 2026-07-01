@@ -1,10 +1,14 @@
 import { useState } from "react";
 import { useData } from "../../context/DataContext";
 import { useRole } from "../../context/RoleContext";
+import { useChatbotContext } from "../../context/ChatbotContext";
+import { useEffect, useMemo } from "react";
 
 function Examenes() {
   const { exams, setExams } = useData();
   const { currentPatientId } = useRole();
+  const { setPageContext } = useChatbotContext();
+
 
   const [nuevoExamen, setNuevoExamen] = useState({
     tipo: "",
@@ -13,9 +17,23 @@ function Examenes() {
     archivo: null,
   });
 
-  const misExamenes = exams.filter(
-    (e) => e.pacienteId === currentPatientId
-  );
+    const misExamenes = useMemo(() => {
+    return exams.filter(
+      (e) => e.pacienteId === currentPatientId
+    );
+  }, [exams, currentPatientId]);
+
+
+    useEffect(() => {
+      setPageContext({
+        page: "Examenes",
+        examenes: misExamenes,
+      });
+  
+      return () => {
+        setPageContext(null);
+      }
+    }, [misExamenes, setPageContext]);
 
   function agregarExamen() {
     if (!nuevoExamen.tipo.trim()) {

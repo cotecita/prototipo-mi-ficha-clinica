@@ -4,6 +4,8 @@ import { useEffect } from "react";
 
 const GEMINI_API_KEY = "PON_AQUI_TU_NUEVA_API_KEY";
 
+const DOCTOR_SYSTEM_PROMPT = "EMPIEZA CADA MENSAJE CON UN HOLA DOCTOR Eres un asistente de de salud dentro de una app donde un doctor ve el historial medico de un paciente, incluyendo exámenes, síntomas, diagnosticos, etc. Proporcinoa orientación al doctor, puedes citar artículos científicos médicos actuales o muy respaldados sólo si la situacion lo requiere."
+
 export default function Chatbot() {
 const { pageContext } = useChatbotContext();
 
@@ -67,7 +69,7 @@ const { pageContext } = useChatbotContext();
             systemInstruction: {
               parts: [
                 {
-                  text: `
+                  text: pageContext?.role == "doctor" ? DOCTOR_SYSTEM_PROMPT : `
 Eres un asistente de salud dentro de una app para ver historial médico. Proporciona orientación general y clara, pero no hagas diagnósticos definitivos ni reemplaces a un médico. Responde en español.
 
 Reglas:

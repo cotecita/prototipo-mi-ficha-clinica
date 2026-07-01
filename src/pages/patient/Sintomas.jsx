@@ -1,17 +1,33 @@
 import { useData } from "../../context/DataContext";
 import { useRole } from "../../context/RoleContext";
+import { useChatbotContext } from "../../context/ChatbotContext";
+import { useEffect, useMemo } from "react";
 
 function Sintomas() {
   const { appointments } = useData();
   const { currentPatientId } = useRole();
+  const { setPageContext } = useChatbotContext();
 
-  const misSintomas = appointments
-    .filter((c) => c.pacienteId === currentPatientId)
-    .flatMap((c) => c.sintomas || [])
-    .sort(
-      (a, b) =>
-        new Date(b.fechaInicio) - new Date(a.fechaInicio)
-    );
+    const misSintomas = useMemo(() => {
+    const sintomas = appointments
+      .filter((c) => c.pacienteId === currentPatientId)
+      .flatMap((c) => c.sintomas || []);
+
+    return sintomas;
+  }, [appointments, currentPatientId]);
+
+
+  useEffect(() => {
+    setPageContext({
+      page: "Sintomas",
+      sintomas: misSintomas,
+    });
+
+    return () => {
+      setPageContext(null);
+    }
+  }, [misSintomas, setPageContext]);
+
 
   return (
     <div className="max-w-5xl mx-auto space-y-8">

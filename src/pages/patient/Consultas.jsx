@@ -1,5 +1,7 @@
 import { useData } from "../../context/DataContext";
 import { useRole } from "../../context/RoleContext";
+import { useChatbotContext } from "../../context/ChatbotContext";
+import { useEffect, useMemo } from "react";
 
 function Consultas() {
   const { appointments, doctors } = useData();
@@ -7,9 +9,11 @@ function Consultas() {
 
   const { setPageContext } = useChatbotContext();
 
-  const misConsultas = appointments.filter(
-    (c) => c.pacienteId === currentPatientId
-  );
+  const misConsultas = useMemo(() => {
+    return appointments.filter(
+      (c) => c.pacienteId === currentPatientId
+    );
+  }, [appointments, currentPatientId]);
 
   function getDoctorName(id) {
     const doctor = doctors.find((d) => d.id === id);

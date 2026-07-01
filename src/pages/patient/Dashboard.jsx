@@ -1,9 +1,13 @@
 import { useData } from "../../context/DataContext";
 import { useRole } from "../../context/RoleContext";
+import { useChatbotContext } from "../../context/ChatbotContext";
+import { useEffect, useMemo } from "react";
 
 function PatientDashboard() {
   const { currentPatientId } = useRole();
+  const { setPageContext } = useChatbotContext();
 
+  
   const {
     diagnoses,
     appointments,

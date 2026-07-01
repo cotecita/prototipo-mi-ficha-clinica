@@ -1,13 +1,29 @@
 import { useData } from "../../context/DataContext";
 import { useRole } from "../../context/RoleContext";
+import { useChatbotContext } from "../../context/ChatbotContext";
+import { useEffect, useMemo } from "react";
 
 function Diagnosticos() {
   const { diagnoses } = useData();
   const { currentPatientId } = useRole();
+  const { setPageContext } = useChatbotContext();
 
-  const misDiagnosticos = diagnoses.filter(
+  const misDiagnosticos = useMemo(() => {
+  return diagnoses.filter(
     (d) => d.pacienteId === currentPatientId
   );
+}, [diagnoses, currentPatientId]);
+
+  useEffect(() => {
+      setPageContext({
+        page: "Diagnosticos",
+        diagnosticos: misDiagnosticos,
+      });
+  
+      return () => {
+        setPageContext(null);
+      }
+    }, [misDiagnosticos, setPageContext]);
 
   return (
     <div className="max-w-5xl mx-auto space-y-8">

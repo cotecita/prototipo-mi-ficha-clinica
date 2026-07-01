@@ -1,16 +1,20 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { useData } from "../../context/DataContext";
 import { useRole } from "../../context/RoleContext";
+import { useChatbotContext } from "../../context/ChatbotContext";
 
 function Historial() {
   const { patients, diagnoses, appointments, exams, approvedAccess } = useData();
   const { currentDoctorId } = useRole();
+  const { setPageContext } = useChatbotContext();
 
   const [selectedPatientId, setSelectedPatientId] = useState("");
   const [selectedConsulta, setSelectedConsulta] = useState(null);
   const [filter, setFilter] = useState("ALL"); // ALL | CONSULTAS | DIAGNOSTICOS | EXAMENES
 
   const patient = patients.find((p) => p.id === selectedPatientId);
+
+  
 
   const hasAccess = approvedAccess.some(
     (a) =>
@@ -62,6 +66,19 @@ function Historial() {
 
     return eventos.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
   }, [selectedPatientId, appointments, diagnoses, exams]);
+
+  useEffect(() => {
+    setPageContext({
+      page: "Historial",
+      timeline: timeline,
+      timeline,
+      role: "doctor",
+    });
+
+    return () => {
+      setPageContext(null);
+    }
+  }, [selectedPatientId, timeline, setPageContext]);
 
   const filteredTimeline = timeline.filter((e) => {
     if (filter === "ALL") return true;
