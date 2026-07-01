@@ -35,7 +35,7 @@ function Diagnosticos() {
 
                 <span
                   className={`px-2 py-1 rounded text-sm ${
-                    d.estado === "ACTIVE"
+                    d.estado === "ACTIVO"
                       ? "bg-green-100 text-green-700"
                       : "bg-gray-200 text-gray-600"
                   }`}

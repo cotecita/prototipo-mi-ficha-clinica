@@ -10,7 +10,7 @@ function NuevoDiagnostico() {
   const [form, setForm] = useState({
     codigoICD: "",
     descripcion: "",
-    estado: "ACTIVE",
+    estado: "ACTIVO",
   });
 
   function handleChange(e) {
@@ -97,8 +97,8 @@ function NuevoDiagnostico() {
           value={form.estado}
           onChange={handleChange}
         >
-          <option value="ACTIVE">ACTIVE</option>
-          <option value="INACTIVE">INACTIVE</option>
+          <option value="ACTIVO">ACTIVO</option>
+          <option value="RESUELTO">RESUELTO</option>
         </select>
 
         <button

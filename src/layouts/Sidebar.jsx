@@ -12,20 +12,12 @@ import {
 
 import { NavLink, useNavigate } from "react-router-dom";
 import { useRole } from "../context/RoleContext";
-import { useData } from "../context/DataContext";
 
 function Sidebar() {
-  const { role, setRole, currentPatientId, currentDoctorId } = useRole();
-
-  const { patients, doctors } = useData();
-
+  const { currentUser, logout, isPatient, isDoctor } = useRole();
   const navigate = useNavigate();
 
-  const patient = patients.find((p) => p.id === currentPatientId);
-  const doctor = doctors.find((d) => d.id === currentDoctorId);
-
-  const currentUser = role === "patient" ? patient : doctor;
-
+  // 🔵 LINKS PACIENTE
   const patientLinks = [
     {
       name: "Dashboard",
@@ -64,6 +56,7 @@ function Sidebar() {
     },
   ];
 
+  // 🟣 LINKS MÉDICO
   const doctorLinks = [
     {
       name: "Dashboard",
@@ -95,44 +88,47 @@ function Sidebar() {
       path: "/doctor/nuevo-diagnostico",
       icon: FileText,
     },
+    {
+      name: "Nuevo examen",
+      path: "/doctor/nuevo-examen",
+      icon: FileText,
+    },
   ];
 
-  const links = role === "patient" ? patientLinks : doctorLinks;
+  // 🎯 decidir links según rol
+  const links = isPatient ? patientLinks : doctorLinks;
 
-  function logout() {
-    setRole(null);
+  function logoutHandler() {
+    logout();
     navigate("/");
   }
 
   return (
     <aside className="w-72 bg-blue-900 text-white flex flex-col">
 
+      {/* HEADER */}
       <div className="p-6 border-b border-blue-800">
-        <h1 className="text-2xl font-bold">
-          Mi Ficha Clínica
-        </h1>
-
+        <h1 className="text-2xl font-bold">Mi Ficha Clínica</h1>
         <p className="text-sm text-blue-200 mt-1">
           Historial Médico
         </p>
       </div>
 
+      {/* USER INFO */}
       <div className="p-6 border-b border-blue-800">
-
         <div className="font-semibold text-lg">
           {currentUser?.nombre}
         </div>
 
         <div className="text-sm text-blue-200">
-          {role === "patient"
+          {isPatient
             ? "Paciente"
-            : currentUser?.especialidad}
+            : currentUser?.especialidad || "Médico"}
         </div>
-
       </div>
 
+      {/* NAV */}
       <nav className="flex-1 p-4">
-
         {links.map((link) => {
           const Icon = link.icon;
 
@@ -149,25 +145,21 @@ function Sidebar() {
               }
             >
               <Icon size={20} />
-
               {link.name}
             </NavLink>
           );
         })}
-
       </nav>
 
+      {/* LOGOUT */}
       <div className="p-4 border-t border-blue-800">
-
         <button
-          onClick={logout}
+          onClick={logoutHandler}
           className="flex items-center gap-3 w-full rounded-lg px-4 py-3 hover:bg-red-600 transition"
         >
           <LogOut size={20} />
-
           Cerrar sesión
         </button>
-
       </div>
 
     </aside>

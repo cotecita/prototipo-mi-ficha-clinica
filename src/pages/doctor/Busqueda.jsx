@@ -80,11 +80,11 @@ function BusquedaPaciente() {
         </div>
       )}
 
-      {resultado === null && rut && (
+      {/* {resultado === null && rut && (
         <p className="text-red-500">
           Paciente no encontrado
         </p>
-      )}
+      )} */}
 
     </div>
   );
