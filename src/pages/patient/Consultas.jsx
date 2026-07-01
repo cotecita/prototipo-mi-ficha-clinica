@@ -15,50 +15,88 @@ function Consultas() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="max-w-5xl mx-auto space-y-8">
 
-      <h1 className="text-3xl font-bold">
-        Mis Consultas Médicas
-      </h1>
-
-      {misConsultas.length === 0 ? (
+      {/* HEADER */}
+      <div>
+        <h1 className="text-3xl font-bold text-gray-800">
+          Mis Consultas Médicas
+        </h1>
         <p className="text-gray-500">
-          No tienes consultas registradas
+          Historial de atenciones médicas
         </p>
+      </div>
+
+      {/* EMPTY STATE */}
+      {misConsultas.length === 0 ? (
+        <div className="bg-white border rounded-2xl shadow p-10 text-center">
+          <p className="text-gray-500">
+            No tienes consultas registradas
+          </p>
+        </div>
       ) : (
         <div className="space-y-4">
 
-          {misConsultas.map((c) => (
-            <div
-              key={c.id}
-              className="bg-white p-4 rounded shadow border space-y-2"
-            >
+          {misConsultas
+            .slice()
+            .reverse()
+            .map((c) => (
+              <div
+                key={c.id}
+                className="bg-white border rounded-2xl shadow p-5 hover:shadow-md transition"
+              >
 
-              <div className="flex justify-between">
-                <h2 className="font-bold text-lg">
-                  {c.motivo}
-                </h2>
+                {/* HEADER CARD */}
+                <div className="flex items-start justify-between gap-4">
 
-                <span className="text-sm text-gray-400">
-                  {c.fecha}
-                </span>
+                  <div>
+                    <h2 className="text-lg font-semibold text-gray-800">
+                      {c.motivo}
+                    </h2>
+
+                    <p className="text-sm text-gray-500 mt-1">
+                      Atendido por{" "}
+                      <span className="font-medium text-gray-700">
+                        {getDoctorName(c.medicoId)}
+                      </span>
+                    </p>
+                  </div>
+
+                  <span className="text-xs px-3 py-1 rounded-full bg-gray-100 text-gray-600 font-medium">
+                    {c.fecha}
+                  </span>
+
+                </div>
+
+                {/* BODY */}
+                <div className="mt-4 space-y-2 text-sm text-gray-700">
+
+                  <p>
+                    <span className="font-semibold text-gray-800">
+                      Tratamiento:
+                    </span>{" "}
+                    {c.tratamiento}
+                  </p>
+
+                  <p>
+                    <span className="font-semibold text-gray-800">
+                      Indicaciones:
+                    </span>{" "}
+                    {c.indicaciones}
+                  </p>
+
+                </div>
+
+                {/* FOOTER */}
+                <div className="mt-4 border-t pt-3 text-xs text-gray-400 flex justify-between">
+                  <span>
+                    Médico: {getDoctorName(c.medicoId)}
+                  </span>
+
+                </div>
+
               </div>
-
-              <p className="text-gray-600">
-                <strong>Tratamiento:</strong> {c.tratamiento}
-              </p>
-
-              <p className="text-gray-600">
-                <strong>Indicaciones:</strong> {c.indicaciones}
-              </p>
-
-              <p className="text-sm text-gray-500">
-                Atendido por: {getDoctorName(c.medicoId)}
-              </p>
-
-            </div>
-          ))}
-
+            ))}
         </div>
       )}
 

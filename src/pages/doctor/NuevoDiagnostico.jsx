@@ -45,20 +45,27 @@ function NuevoDiagnostico() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="max-w-3xl mx-auto space-y-8">
 
-      <h1 className="text-3xl font-bold">
-        Nuevo Diagnóstico Médico
-      </h1>
+      {/* HEADER */}
+      <div>
+        <h1 className="text-3xl font-bold text-gray-800">
+          Nuevo Diagnóstico Médico
+        </h1>
+        <p className="text-gray-500">
+          Registra un diagnóstico clínico del paciente
+        </p>
+      </div>
 
-      {/* Selección paciente */}
-      <div className="bg-white p-4 rounded shadow border">
-        <label className="block font-medium mb-2">
-          Paciente
+      {/* SELECT PACIENTE */}
+      <div className="bg-white p-6 rounded-2xl shadow border space-y-3">
+
+        <label className="block text-sm font-medium text-gray-600">
+          Seleccionar paciente
         </label>
 
         <select
-          className="border p-2 rounded w-full"
+          className="border p-3 rounded-xl w-full focus:outline-none focus:ring-2 focus:ring-green-500 transition"
           value={selectedPatientId}
           onChange={(e) => setSelectedPatientId(e.target.value)}
         >
@@ -72,38 +79,43 @@ function NuevoDiagnostico() {
         </select>
       </div>
 
-      {/* Formulario */}
-      <div className="bg-white p-4 rounded shadow border space-y-4">
+      {/* FORM CARD */}
+      <div className="bg-white p-6 rounded-2xl shadow border space-y-5">
 
-        <input
-          className="border p-2 rounded w-full"
-          placeholder="Código ICD (ej: I10)"
-          name="codigoICD"
-          value={form.codigoICD}
-          onChange={handleChange}
-        />
+        <div className="grid gap-4">
 
-        <input
-          className="border p-2 rounded w-full"
-          placeholder="Descripción del diagnóstico"
-          name="descripcion"
-          value={form.descripcion}
-          onChange={handleChange}
-        />
+          <input
+            className="border p-3 rounded-xl w-full focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+            placeholder="Código ICD (ej: I10)"
+            name="codigoICD"
+            value={form.codigoICD}
+            onChange={handleChange}
+          />
 
-        <select
-          className="border p-2 rounded w-full"
-          name="estado"
-          value={form.estado}
-          onChange={handleChange}
-        >
-          <option value="ACTIVO">ACTIVO</option>
-          <option value="RESUELTO">RESUELTO</option>
-        </select>
+          <input
+            className="border p-3 rounded-xl w-full focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+            placeholder="Descripción del diagnóstico"
+            name="descripcion"
+            value={form.descripcion}
+            onChange={handleChange}
+          />
 
+          <select
+            className="border p-3 rounded-xl w-full focus:outline-none focus:ring-2 focus:ring-green-500 transition"
+            name="estado"
+            value={form.estado}
+            onChange={handleChange}
+          >
+            <option value="ACTIVO">ACTIVO</option>
+            <option value="RESUELTO">RESUELTO</option>
+          </select>
+
+        </div>
+
+        {/* BUTTON */}
         <button
           onClick={guardarDiagnostico}
-          className="bg-green-600 text-white px-4 py-2 rounded"
+          className="w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl font-medium transition"
         >
           Guardar diagnóstico
         </button>
