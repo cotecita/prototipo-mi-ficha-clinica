@@ -89,29 +89,71 @@ function Historial() {
       </h1>
 
       {/* SELECTOR PACIENTE */}
-      <div className="bg-white p-4 rounded shadow border">
-        <label className="block text-sm font-medium mb-2">
-          Seleccionar paciente
-        </label>
+      <div className="bg-white border rounded-2xl shadow p-6">
 
-        <select
-          className="border p-2 rounded w-full"
-          onChange={(e) => setSelectedPatientId(e.target.value)}
-        >
-          <option value="">Seleccione...</option>
-          {patients.map((p) => (
-            <option key={p.id} value={p.id}>
-              {p.nombre} - {p.rut}
-            </option>
-          ))}
-        </select>
+        <div className="mb-5">
+          <h2 className="text-xl font-semibold text-gray-800">
+            Seleccionar paciente
+          </h2>
+
+          <p className="text-sm text-gray-500 mt-1">
+            Elige un paciente para consultar su historial clínico.
+          </p>
+        </div>
+
+        <div className="space-y-2">
+
+          <label className="text-sm font-medium text-gray-700">
+            Paciente
+          </label>
+
+          <select
+            value={selectedPatientId}
+            onChange={(e) => setSelectedPatientId(e.target.value)}
+            className="w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+          >
+            <option value="">Seleccione un paciente...</option>
+
+            {patients.map((p) => (
+              <option key={p.id} value={p.id}>
+                {p.nombre} • {p.rut}
+              </option>
+            ))}
+          </select>
+
+        </div>
+
+        {selectedPatientId && patient && (
+          <div className="mt-6 p-4 rounded-xl bg-blue-50 border border-blue-100">
+
+            <div className="flex items-center gap-4">
+
+              <div className="w-14 h-14 rounded-full bg-blue-600 text-white flex items-center justify-center text-xl font-bold">
+                {patient.nombre.charAt(0)}
+              </div>
+
+              <div>
+
+                <h3 className="font-semibold text-gray-800 text-lg">
+                  {patient.nombre}
+                </h3>
+
+                <p className="text-sm text-gray-600">
+                  {patient.rut}
+                </p>
+
+                <p className="text-sm text-gray-500">
+                  {patient.sexo} • {calcEdad(patient.fechaNacimiento)} años
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+        )}
+
       </div>
-
-      {!selectedPatientId && (
-        <p className="text-gray-500">
-          Selecciona un paciente para ver su historial
-        </p>
-      )}
 
       {selectedPatientId && !hasAccess && (
         <div className="bg-red-100 text-red-700 p-4 rounded">

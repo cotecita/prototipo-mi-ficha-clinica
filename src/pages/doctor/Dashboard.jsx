@@ -91,9 +91,6 @@ function DoctorDashboard() {
                         {paciente?.nombre || "Paciente desconocido"}
                       </p>
 
-                      <p className="text-xs text-gray-400">
-                        ID paciente: {s.pacienteId}
-                      </p>
                     </div>
 
                     {/* RIGHT BADGE */}
