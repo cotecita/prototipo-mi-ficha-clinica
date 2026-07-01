@@ -1,48 +1,46 @@
-import { GoogleGenAI } from "@google/genai";
+// import { GoogleGenAI } from "@google/genai";
 
-const ai = new GoogleGenAI({
-  apiKey: process.env.GEMINI_API_KEY,
-});
 
-export default async function handler(req, res) {
-  if (req.method !== "POST") {
-    return res.status(405).json({ error: "Método no permitido" });
-  }
 
-  try {
-    const { messages } = req.body;
+// export default async function handler(req, res) {
+//   if (req.method !== "POST") {
+//     return res.status(405).json({ error: "Método no permitido" });
+//   }
 
-    if (!Array.isArray(messages)) {
-      return res.status(400).json({ error: "Formato inválido" });
-    }
+//   try {
+//     const { messages } = req.body;
 
-    const transcript = messages
-      .map((msg) => {
-        const role = msg.role === "user" ? "Usuario" : "Asistente";
-        return `${role}: ${msg.content}`;
-      })
-      .join("\n");
+//     if (!Array.isArray(messages)) {
+//       return res.status(400).json({ error: "Formato inválido" });
+//     }
 
-    const interaction = await ai.interactions.create({
-      model: "gemini-3.5-flash",
-      system_instruction:
-        "Eres un chatbot útil dentro de una app web. Responde de forma clara, breve y en español.",
-      input: `
-Esta es la conversación hasta ahora:
+//     const transcript = messages
+//       .map((msg) => {
+//         const role = msg.role === "user" ? "Usuario" : "Asistente";
+//         return `${role}: ${msg.content}`;
+//       })
+//       .join("\n");
 
-${transcript}
+//     const interaction = await ai.interactions.create({
+//       model: "gemini-3.5-flash",
+//       system_instruction:
+//         "Eres un chatbot útil dentro de una app web. Responde de forma clara, breve y en español.",
+//       input: `
+// Esta es la conversación hasta ahora:
 
-Responde solo como Asistente.
-      `,
-    });
+// ${transcript}
 
-    return res.status(200).json({
-      reply: interaction.output_text,
-    });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({
-      error: "Error generando respuesta con Gemini",
-    });
-  }
-}
+// Responde solo como Asistente.
+//       `,
+//     });
+
+//     return res.status(200).json({
+//       reply: interaction.output_text,
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     return res.status(500).json({
+//       error: "Error generando respuesta con Gemini",
+//     });
+//   }
+// }
