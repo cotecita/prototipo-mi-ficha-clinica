@@ -30,7 +30,7 @@ function RoleSelector() {
         </h1>
 
         <p className="text-center text-gray-500 mb-8">
-          Seleccione su rol
+          Seleccione su rcsadol
         </p>
 
         <div className="space-y-4">

@@ -5,6 +5,8 @@ function Consultas() {
   const { appointments, doctors } = useData();
   const { currentPatientId } = useRole();
 
+  const { setPageContext } = useChatbotContext();
+
   const misConsultas = appointments.filter(
     (c) => c.pacienteId === currentPatientId
   );
@@ -13,6 +15,17 @@ function Consultas() {
     const doctor = doctors.find((d) => d.id === id);
     return doctor ? doctor.nombre : "Médico desconocido";
   }
+
+  useEffect(() => {
+    setPageContext({
+      page: "Consultas",
+      consultas: misConsultas,
+    });
+
+    return () => {
+      setPageContext(null);
+    }
+  }, [misConsultas, setPageContext]);
 
   return (
     <div className="space-y-6">
