@@ -9,6 +9,16 @@ export const pacientes = [
     edad: 36,
     password: "123456",
   },
+  {
+    id: "2",
+    rut: "17654321-4",
+    nombre: "Juan Soto",
+    email: "juan@gmail.com",
+    sexo: "MASCULINO",
+    fechaNacimiento: "1985-09-22",
+    edad: 40,
+    password: "123456",
+  },
 ];
 
 export const medicos = [
@@ -18,6 +28,14 @@ export const medicos = [
     nombre: "Dr. Carlos Pérez",
     email: "carlos@gmail.com",
     especialidad: "Cardiología",
+    password: "123456",
+  },
+  {
+    id: "2",
+    rut: "11222333-4",
+    nombre: "Dra. Ana Martínez",
+    email: "ana@gmail.com",
+    especialidad: "Neurología",
     password: "123456",
   },
 ];
