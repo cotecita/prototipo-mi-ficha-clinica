@@ -55,22 +55,13 @@ const { pageContext } = useChatbotContext();
         })
         .join("\n");
 
-        const amon = "AQ"
-        const us = "sskSIj6NQygFZhZnu_LdtqLk2tnTZjlReA"
-        const tolet = "pi-k"
-        const jeje = "ey"
-        const g = ".Ab8RN6KJ_0Z-OL2t"
-
-
-        const skipidi = "x-goog-a"
-
       const response = await fetch(
         "https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            [skipidi, tolet, jeje]: `${amon}${g}${us}`,
+            "x-goog-api-key": "AQ.Ab8RN6KJ_0Z-OL2tsskSIj6NQygFZhZnu_LdtqLk2tnTZjlReA",
           },
           body: JSON.stringify({
             systemInstruction: {
