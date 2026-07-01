@@ -17,6 +17,7 @@ import Consultas from "../pages/patient/Consultas";
 import Sintomas from "../pages/patient/Sintomas";
 import Accesos from "../pages/patient/Accesos";
 import SolicitudesDoctor from "../pages/doctor/SolicitudesDoctor";
+import NuevoExamen from "../pages/doctor/NuevoExamen";
 
 const Placeholder = ({ title }) => (
   <h1 className="text-3xl font-bold">{title}</h1>
@@ -90,6 +91,10 @@ export const router = createBrowserRouter([
       {
         path: "nuevo-diagnostico",
         element: <NuevoDiagnostico />,
+      },
+      {
+        path: "nuevo-examen",
+        element: <NuevoExamen />,
       },
     ],
   },

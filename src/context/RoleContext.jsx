@@ -3,19 +3,32 @@ import { createContext, useContext, useState } from "react";
 const RoleContext = createContext();
 
 export function RoleProvider({ children }) {
-  const [role, setRole] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
 
-  // Usuario "logueado" para el prototipo
-  const currentPatientId = "1";
-  const currentDoctorId = "1";
+  function login(user) {
+    setCurrentUser(user);
+  }
+
+  function logout() {
+    setCurrentUser(null);
+  }
+
+  const isPatient = currentUser?.role === "PATIENT";
+  const isDoctor = currentUser?.role === "DOCTOR";
 
   return (
     <RoleContext.Provider
       value={{
-        role,
-        setRole,
-        currentPatientId,
-        currentDoctorId,
+        currentUser,
+        setCurrentUser,
+        login,
+        logout,
+
+        isPatient,
+        isDoctor,
+
+        currentPatientId: isPatient ? currentUser.id : null,
+        currentDoctorId: isDoctor ? currentUser.id : null,
       }}
     >
       {children}
