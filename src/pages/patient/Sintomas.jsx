@@ -14,33 +14,66 @@ function Sintomas() {
     );
 
   return (
-    <div className="space-y-6">
+    <div className="max-w-5xl mx-auto space-y-8">
 
-      <h1 className="text-3xl font-bold">
-        Mis Síntomas
-      </h1>
+      {/* Header */}
+      <div>
+        <h1 className="text-3xl font-bold text-gray-800">
+          Mis Síntomas
+        </h1>
+
+        <p className="text-gray-500">
+          Historial de síntomas registrados durante las consultas médicas.
+        </p>
+      </div>
 
       {misSintomas.length === 0 ? (
-        <p className="text-gray-500">
-          No hay síntomas registrados
-        </p>
+        <div className="bg-white border rounded-2xl shadow p-10 text-center">
+          <p className="text-gray-500">
+            No hay síntomas registrados.
+          </p>
+        </div>
       ) : (
-        <div className="space-y-3">
+        <div className="space-y-4">
 
           {misSintomas.map((s, i) => (
             <div
               key={i}
-              className="bg-white p-4 border rounded"
+              className="bg-white border rounded-2xl shadow p-5 hover:shadow-md transition"
             >
-              <p className="font-bold">{s.nombre}</p>
 
-              <p className="text-sm text-gray-500">
-                {s.categoria}
-              </p>
+              <div className="flex items-start justify-between gap-4">
 
-              <p className="text-sm text-gray-400">
-                {s.fechaInicio}
-              </p>
+                <div>
+                  <h2 className="text-lg font-semibold text-gray-800">
+                    {s.nombre}
+                  </h2>
+
+                  <p className="text-sm text-gray-500 mt-1">
+                    Categoría:{" "}
+                    <span className="font-medium">
+                      {s.categoria}
+                    </span>
+                  </p>
+                </div>
+
+                <span className="px-3 py-1 rounded-full bg-red-100 text-red-700 text-xs font-semibold">
+                  Síntoma
+                </span>
+
+              </div>
+
+              <div className="mt-4 border-t pt-3 flex justify-between text-sm text-gray-500">
+
+                <span>
+                  Inicio:{" "}
+                  <span className="font-medium text-gray-700">
+                    {s.fechaInicio}
+                  </span>
+                </span>
+
+              </div>
+
             </div>
           ))}
 

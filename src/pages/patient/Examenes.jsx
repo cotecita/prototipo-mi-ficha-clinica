@@ -5,6 +5,7 @@ import { useRole } from "../../context/RoleContext";
 function Examenes() {
   const { exams, setExams } = useData();
   const { currentPatientId } = useRole();
+
   const [nuevoExamen, setNuevoExamen] = useState({
     tipo: "",
     resultados: "",
@@ -15,7 +16,6 @@ function Examenes() {
   const misExamenes = exams.filter(
     (e) => e.pacienteId === currentPatientId
   );
-
 
   function agregarExamen() {
     if (!nuevoExamen.tipo.trim()) {
@@ -42,13 +42,6 @@ function Examenes() {
         };
 
         setExams([...exams, examen]);
-
-        setNuevoExamen({
-          tipo: "",
-          resultados: "",
-          fecha: new Date().toISOString().split("T")[0],
-          archivo: null,
-        });
       };
 
       reader.readAsDataURL(nuevoExamen.archivo);
@@ -64,148 +57,185 @@ function Examenes() {
       };
 
       setExams([...exams, examen]);
-
-      setNuevoExamen({
-        tipo: "",
-        resultados: "",
-        fecha: new Date().toISOString().split("T")[0],
-        archivo: null,
-      });
     }
+
+    setNuevoExamen({
+      tipo: "",
+      resultados: "",
+      fecha: new Date().toISOString().split("T")[0],
+      archivo: null,
+    });
   }
 
   return (
-    <div className="space-y-6">
+    <div className="max-w-5xl mx-auto space-y-10">
 
-      <h1 className="text-3xl font-bold">
-        Mis Exámenes
-      </h1>
+      {/* HEADER */}
+      <div>
+        <h1 className="text-3xl font-bold text-gray-800">
+          Mis Exámenes
+        </h1>
+        <p className="text-gray-500">
+          Resultados de laboratorio e imágenes médicas
+        </p>
+      </div>
 
-      <div className="bg-white p-4 rounded shadow border space-y-4">
+      {/* FORM 
+      <div className="bg-white border rounded-2xl shadow p-6 space-y-5">
 
-        <h2 className="text-xl font-semibold">
-          Agregar examen
+        <h2 className="text-lg font-semibold text-gray-800">
+          Agregar nuevo examen
         </h2>
 
-        <input
-          className="border p-2 rounded w-full"
-          placeholder="Tipo de examen"
-          value={nuevoExamen.tipo}
-          onChange={(e) =>
-            setNuevoExamen({
-              ...nuevoExamen,
-              tipo: e.target.value,
-            })
-          }
-        />
+        <div className="grid gap-4">
 
-        <input
-          type="date"
-          className="border p-2 rounded w-full"
-          value={nuevoExamen.fecha}
-          onChange={(e) =>
-            setNuevoExamen({
-              ...nuevoExamen,
-              fecha: e.target.value,
-            })
-          }
-        />
+          <input
+            className="border p-3 rounded-xl w-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+            placeholder="Tipo de examen (ej: Hemograma, Radiografía)"
+            value={nuevoExamen.tipo}
+            onChange={(e) =>
+              setNuevoExamen({
+                ...nuevoExamen,
+                tipo: e.target.value,
+              })
+            }
+          />
 
-        <textarea
-          className="border p-2 rounded w-full"
-          placeholder="Resultados"
-          value={nuevoExamen.resultados}
-          onChange={(e) =>
-            setNuevoExamen({
-              ...nuevoExamen,
-              resultados: e.target.value,
-            })
-          }
-        />
+          <input
+            type="date"
+            className="border p-3 rounded-xl w-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+            value={nuevoExamen.fecha}
+            onChange={(e) =>
+              setNuevoExamen({
+                ...nuevoExamen,
+                fecha: e.target.value,
+              })
+            }
+          />
 
-        <input
-          type="file"
-          className="border p-2 rounded w-full"
-          onChange={(e) =>
-            setNuevoExamen({
-              ...nuevoExamen,
-              archivo: e.target.files[0],
-            })
-          }
-        />
+          <textarea
+            className="border p-3 rounded-xl w-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+            placeholder="Resultados del examen"
+            value={nuevoExamen.resultados}
+            onChange={(e) =>
+              setNuevoExamen({
+                ...nuevoExamen,
+                resultados: e.target.value,
+              })
+            }
+            rows={3}
+          />
+
+          <input
+            type="file"
+            className="border p-3 rounded-xl w-full bg-white"
+            onChange={(e) =>
+              setNuevoExamen({
+                ...nuevoExamen,
+                archivo: e.target.files[0],
+              })
+            }
+          />
+
+        </div>
 
         <button
           onClick={agregarExamen}
-          className="bg-blue-600 text-white px-4 py-2 rounded"
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-medium transition"
         >
-          Agregar examen
+          Guardar examen
         </button>
 
-      </div>
+      </div> */}
 
+      {/* LISTA */}
       {misExamenes.length === 0 ? (
-        <p className="text-gray-500">
-          No tienes exámenes registrados
-        </p>
+        <div className="bg-white border rounded-2xl shadow p-10 text-center">
+          <p className="text-gray-500">
+            No tienes exámenes registrados
+          </p>
+        </div>
       ) : (
         <div className="space-y-4">
 
-          {misExamenes.map((e) => (
-            <div
-              key={e.id}
-              className="bg-white p-4 rounded shadow border space-y-3"
-            >
+          {misExamenes
+            .slice()
+            .reverse()
+            .map((e) => (
+              <div
+                key={e.id}
+                className="bg-white border rounded-2xl shadow p-5 hover:shadow-md transition"
+              >
 
-              <div className="flex justify-between">
-                <h2 className="font-bold text-lg">
-                  {e.tipo}
-                </h2>
+                {/* HEADER */}
+                <div className="flex justify-between items-start">
 
-                <span className="text-sm text-gray-400">
-                  {e.fecha}
-                </span>
-              </div>
+                  <div>
+                    <h2 className="text-lg font-semibold text-gray-800">
+                      {e.tipo}
+                    </h2>
 
-              <p>{e.resultados}</p>
-
-              {e.archivo ? (
-                <div className="space-y-2">
-
-                  <p className="text-green-700 font-medium">
-                    📄 {e.archivo.nombre}
-                  </p>
-
-                  <div className="flex gap-4">
-
-                    <a
-                      href={e.archivo.contenido}
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-blue-600 hover:underline"
-                    >
-                      Ver
-                    </a>
-
-                    <a
-                      href={e.archivo.contenido}
-                      download={e.archivo.nombre}
-                      className="text-blue-600 hover:underline"
-                    >
-                      Descargar
-                    </a>
-
+                    <p className="text-sm text-gray-500">
+                      Fecha: {e.fecha}
+                    </p>
                   </div>
 
+                  <span className="text-xs px-3 py-1 rounded-full bg-blue-50 text-blue-700 font-medium">
+                    Examen
+                  </span>
+
                 </div>
-              ) : (
-                <p className="text-gray-400 text-sm">
-                  No hay archivo adjunto.
-                </p>
-              )}
 
-            </div>
-          ))}
+                {/* RESULTADOS */}
+                <div className="mt-4 text-sm text-gray-700">
+                  <p className="font-medium text-gray-800 mb-1">
+                    Resultados:
+                  </p>
+                  <p>{e.resultados || "Sin resultados registrados"}</p>
+                </div>
 
+                {/* ARCHIVO */}
+                <div className="mt-4 border-t pt-3">
+
+                  {e.archivo ? (
+                    <div className="space-y-2">
+
+                      <p className="text-green-700 font-medium text-sm">
+                        📄 {e.archivo.nombre}
+                      </p>
+
+                      <div className="flex gap-4 text-sm">
+
+                        <a
+                          href={e.archivo.contenido}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="text-blue-600 hover:underline"
+                        >
+                          Ver
+                        </a>
+
+                        <a
+                          href={e.archivo.contenido}
+                          download={e.archivo.nombre}
+                          className="text-blue-600 hover:underline"
+                        >
+                          Descargar
+                        </a>
+
+                      </div>
+
+                    </div>
+                  ) : (
+                    <p className="text-gray-400 text-sm">
+                      Sin archivo adjunto
+                    </p>
+                  )}
+
+                </div>
+
+              </div>
+            ))}
         </div>
       )}
 

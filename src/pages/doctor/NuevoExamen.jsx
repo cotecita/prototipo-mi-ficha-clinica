@@ -63,48 +63,93 @@ function NuevoExamen() {
   }
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-3xl font-bold">Nuevo Examen Médico</h1>
+    <div className="max-w-3xl mx-auto space-y-8">
 
-      <select
-        className="border p-2 w-full"
-        onChange={(e) => setSelectedPatientId(e.target.value)}
-      >
-        <option value="">Selecciona paciente</option>
-        {patients.map((p) => (
-          <option key={p.id} value={p.id}>
-            {p.nombre}
-          </option>
-        ))}
-      </select>
+      {/* HEADER */}
+      <div>
+        <h1 className="text-3xl font-bold text-gray-800">
+          Nuevo Examen Médico
+        </h1>
+        <p className="text-gray-500">
+          Registra exámenes clínicos e imágenes médicas del paciente
+        </p>
+      </div>
 
-      <input
-        name="tipo"
-        placeholder="Tipo de examen"
-        className="border p-2 w-full"
-        value={form.tipo}
-        onChange={handleChange}
-      />
+      {/* SELECT PACIENTE */}
+      <div className="bg-white p-6 rounded-2xl shadow border space-y-3">
 
-      <textarea
-        name="resultados"
-        placeholder="Resultados"
-        className="border p-2 w-full"
-        value={form.resultados}
-        onChange={handleChange}
-      />
+        <label className="block text-sm font-medium text-gray-600">
+          Seleccionar paciente
+        </label>
 
-      <input
-        type="file"
-        onChange={(e) => setFile(e.target.files[0])}
-      />
+        <select
+          className="border p-3 rounded-xl w-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+          onChange={(e) => setSelectedPatientId(e.target.value)}
+        >
+          <option value="">Selecciona paciente</option>
 
-      <button
-        onClick={guardarExamen}
-        className="bg-blue-600 text-white px-4 py-2 rounded"
-      >
-        Guardar examen
-      </button>
+          {patients.map((p) => (
+            <option key={p.id} value={p.id}>
+              {p.nombre}
+            </option>
+          ))}
+        </select>
+
+      </div>
+
+      {/* FORM CARD */}
+      <div className="bg-white p-6 rounded-2xl shadow border space-y-5">
+
+        <div className="grid gap-4">
+
+          <input
+            name="tipo"
+            placeholder="Tipo de examen (ej: Hemograma, Radiografía)"
+            className="border p-3 rounded-xl w-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+            value={form.tipo}
+            onChange={handleChange}
+          />
+
+          <textarea
+            name="resultados"
+            placeholder="Resultados del examen"
+            className="border p-3 rounded-xl w-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+            value={form.resultados}
+            onChange={handleChange}
+            rows={3}
+          />
+
+          {/* FILE UPLOAD */}
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-gray-600">
+              Archivo médico (opcional)
+            </label>
+
+            <input
+              type="file"
+              className="border p-3 rounded-xl w-full bg-white"
+              onChange={(e) => setFile(e.target.files[0])}
+            />
+
+            {file && (
+              <p className="text-sm text-green-600">
+                📎 Archivo seleccionado: {file.name}
+              </p>
+            )}
+          </div>
+
+        </div>
+
+        {/* BUTTON */}
+        <button
+          onClick={guardarExamen}
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-medium transition"
+        >
+          Guardar examen
+        </button>
+
+      </div>
+
     </div>
   );
 }

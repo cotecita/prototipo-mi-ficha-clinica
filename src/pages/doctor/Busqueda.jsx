@@ -37,54 +37,67 @@ function BusquedaPaciente() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="max-w-2xl mx-auto space-y-8">
 
-      <h1 className="text-3xl font-bold">
-        Buscar paciente
-      </h1>
+      {/* HEADER */}
+      <div className="text-center space-y-2">
+        <h1 className="text-3xl font-bold text-gray-800">
+          Buscar paciente
+        </h1>
+        <p className="text-gray-500">
+          Ingresa el RUT del paciente para solicitar acceso a su historial
+        </p>
+      </div>
 
-      <div className="flex gap-2">
-        <input
-          className="border p-2 rounded w-full"
-          placeholder="Ingrese RUT (ej: 12345678-9)"
-          value={rut}
-          onChange={(e) => setRut(e.target.value)}
-        />
+      {/* SEARCH CARD */}
+      <div className="bg-white p-6 rounded-2xl shadow border space-y-4">
+
+        <div className="space-y-2">
+          <label className="text-sm font-medium text-gray-600">
+            RUT del paciente
+          </label>
+
+          <input
+            className="border p-3 rounded-xl w-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+            placeholder="Ej: 12345678-9"
+            value={rut}
+            onChange={(e) => setRut(e.target.value)}
+          />
+        </div>
 
         <button
           onClick={buscar}
-          className="bg-blue-600 text-white px-4 rounded"
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-medium transition"
         >
-          Buscar
+          Buscar paciente
         </button>
       </div>
 
+      {/* RESULTADO */}
       {resultado && (
-        <div className="bg-white p-4 rounded shadow border space-y-2">
+        <div className="bg-white p-6 rounded-2xl shadow border space-y-5">
 
-          <p className="font-bold text-lg">
-            {resultado.nombre}
-          </p>
+          <div className="space-y-1">
+            <h2 className="text-xl font-bold text-gray-800">
+              {resultado.nombre}
+            </h2>
 
-          <p className="text-gray-500">
-            RUT: {resultado.rut}
-          </p>
+            <p className="text-gray-500">
+              RUT: {resultado.rut}
+            </p>
+          </div>
 
-          <button
-            onClick={solicitarAcceso}
-            className="bg-green-600 text-white px-4 py-2 rounded"
-          >
-            Solicitar acceso
-          </button>
+          <div className="flex gap-3">
+            <button
+              onClick={solicitarAcceso}
+              className="flex-1 bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl font-medium transition"
+            >
+              Solicitar acceso
+            </button>
+          </div>
 
         </div>
       )}
-
-      {/* {resultado === null && rut && (
-        <p className="text-red-500">
-          Paciente no encontrado
-        </p>
-      )} */}
 
     </div>
   );

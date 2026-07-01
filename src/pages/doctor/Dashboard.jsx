@@ -18,58 +18,103 @@ function DoctorDashboard() {
   );
 
   return (
-    <div className="space-y-6">
+    <div className="max-w-6xl mx-auto space-y-10">
 
-      <h1 className="text-3xl font-bold">
-        Dashboard Médico
-      </h1>
+      {/* HEADER */}
+      <div>
+        <h1 className="text-3xl font-bold text-gray-800">
+          Dashboard Médico
+        </h1>
+        <p className="text-gray-500">
+          Resumen general de solicitudes de acceso
+        </p>
+      </div>
 
-      {/* KPIs */}
-      <div className="grid grid-cols-3 gap-4">
+      {/* KPI GRID */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-        <div className="bg-white p-4 border rounded">
-          <p className="text-gray-500">Solicitudes</p>
-          <p className="text-2xl font-bold">
+        <div className="bg-white p-6 rounded-2xl shadow border hover:shadow-md transition">
+          <p className="text-gray-500 text-sm">Solicitudes totales</p>
+          <p className="text-3xl font-bold text-gray-800 mt-2">
             {misSolicitudes.length}
           </p>
         </div>
 
-        <div className="bg-white p-4 border rounded">
-          <p className="text-gray-500">Pendientes</p>
-          <p className="text-2xl font-bold">
+        <div className="bg-yellow-50 border border-yellow-200 p-6 rounded-2xl shadow-sm hover:shadow-md transition">
+          <p className="text-yellow-700 text-sm">Pendientes</p>
+          <p className="text-3xl font-bold text-yellow-700 mt-2">
             {pendientes.length}
           </p>
         </div>
 
-        <div className="bg-white p-4 border rounded">
-          <p className="text-gray-500">Aprobadas</p>
-          <p className="text-2xl font-bold">
+        <div className="bg-green-50 border border-green-200 p-6 rounded-2xl shadow-sm hover:shadow-md transition">
+          <p className="text-green-700 text-sm">Aprobadas</p>
+          <p className="text-3xl font-bold text-green-700 mt-2">
             {aprobadas.length}
           </p>
         </div>
 
       </div>
 
-      {/* últimas solicitudes */}
-      <div className="bg-white p-4 border rounded">
-        <h2 className="font-bold mb-3">
+      {/* ACTIVITY SECTION */}
+      <div className="bg-white rounded-2xl shadow border p-6">
+
+        <h2 className="text-lg font-semibold text-gray-800 mb-4">
           Últimas solicitudes
         </h2>
 
-        {misSolicitudes.slice(-3).map((s) => {
-          const paciente = patients.find(
-            (p) => p.id === s.pacienteId
-          );
+        {misSolicitudes.length === 0 ? (
+          <p className="text-gray-500 text-sm">
+            No hay solicitudes registradas aún
+          </p>
+        ) : (
+          <div className="space-y-3">
 
-          return (
-            <div key={s.id} className="border-b py-2">
-              <p>{paciente?.nombre}</p>
-              <p className="text-sm text-gray-500">
-                {s.estado}
-              </p>
-            </div>
-          );
-        })}
+            {misSolicitudes
+              .slice()
+              .reverse()
+              .slice(0, 5)
+              .map((s) => {
+                const paciente = patients.find(
+                  (p) => p.id === s.pacienteId
+                );
+
+                return (
+                  <div
+                    key={s.id}
+                    className="flex items-center justify-between p-4 rounded-xl border hover:bg-gray-50 transition"
+                  >
+
+                    {/* LEFT */}
+                    <div className="space-y-1">
+                      <p className="font-medium text-gray-800">
+                        {paciente?.nombre || "Paciente desconocido"}
+                      </p>
+
+                      <p className="text-xs text-gray-400">
+                        ID paciente: {s.pacienteId}
+                      </p>
+                    </div>
+
+                    {/* RIGHT BADGE */}
+                    <span
+                      className={`text-xs px-3 py-1 rounded-full font-semibold ${
+                        s.estado === "PENDING"
+                          ? "bg-yellow-100 text-yellow-700"
+                          : s.estado === "APPROVED"
+                          ? "bg-green-100 text-green-700"
+                          : "bg-gray-100 text-gray-600"
+                      }`}
+                    >
+                      {s.estado}
+                    </span>
+
+                  </div>
+                );
+              })}
+          </div>
+        )}
+
       </div>
 
     </div>
